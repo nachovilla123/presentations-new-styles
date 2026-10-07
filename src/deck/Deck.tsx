@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { GridBackground } from './GridBackground';
-import { slides } from './registry';
+import { activeDeckId, deckIds, slides } from './registry';
 import { StepContext } from './steps';
 import { transitionVariants } from './variants';
 
@@ -75,7 +75,11 @@ export function Deck() {
       else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) goPrevious();
       else if (event.key === 'Home') goTo(0);
       else if (event.key === 'End') goTo(slides.length - 1);
-      else if (event.key.toLowerCase() === 'f') {
+      else if (event.key.toLowerCase() === 'd') {
+        // Jump to the next deck folder (showroom → starter → …), starting at its first slide.
+        const nextDeckId = deckIds[(deckIds.indexOf(activeDeckId) + 1) % deckIds.length];
+        window.location.href = `${window.location.pathname}?deck=${nextDeckId}`;
+      } else if (event.key.toLowerCase() === 'f') {
         if (document.fullscreenElement) void document.exitFullscreen();
         else void document.documentElement.requestFullscreen();
       }

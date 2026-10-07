@@ -67,22 +67,30 @@
   backface-visibility: hidden;
 }
 
-/* Spotlight: a bright copy of the text is revealed only around the cursor. */
+/* Spotlight: a bright copy of the content is revealed only around the light. */
 .spot {
-  position: absolute;
-  inset: 0;
   --x: 50%;
   --y: 50%;
 }
 
 .spot-glow {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle 22vw at var(--x) var(--y), rgb(232 72 43 / 0.22), transparent 70%);
+  inset: -12vw;
+  background: radial-gradient(circle 22vw at calc(var(--x) + 12vw) calc(var(--y) + 12vw), rgb(232 72 43 / 0.22), transparent 70%);
   pointer-events: none;
 }
 
+.spot-dim { opacity: 0.1; }
+
+.spot-lit {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: radial-gradient(circle 15vw at var(--x) var(--y), #000 25%, transparent 100%);
+  mask-image: radial-gradient(circle 15vw at var(--x) var(--y), #000 25%, transparent 100%);
+}
+
 .spot-text {
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 800;
   font-size: clamp(40px, 8vw, 140px);
@@ -90,20 +98,10 @@
   letter-spacing: -0.045em;
 }
 
-.spot-text.dim { color: var(--color-fg); opacity: 0.1; }
-
-.spot-text.lit {
-  position: absolute;
-  inset: 0;
-  color: var(--color-fg);
-  -webkit-mask-image: radial-gradient(circle 15vw at var(--x) var(--y), #000 25%, transparent 100%);
-  mask-image: radial-gradient(circle 15vw at var(--x) var(--y), #000 25%, transparent 100%);
-}
-
 /* Before / after comparator */
 .compare {
   position: relative;
-  width: min(62vw, 110vh);
+  width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
   border: 2px solid var(--color-fg);
