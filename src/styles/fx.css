@@ -1,0 +1,278 @@
+/* Effect-specific styles for the animated demo slides. Tokens come from theme.css. */
+
+/* Infinite ticker: the track holds two copies of the content, so -50% loops seamlessly. */
+.marquee-row {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-dur, 30s) linear infinite;
+  animation-direction: var(--marquee-dir, normal);
+}
+
+.marquee-word {
+  padding-right: 0.5em;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(60px, 11vw, 190px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.marquee-word.outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-fg);
+}
+
+.marquee-word.solid { color: var(--color-fg); }
+.marquee-word.hot { color: var(--color-acento); }
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* 3D ring carousel */
+.ring-stage {
+  position: relative;
+  height: 46vh;
+  perspective: 1400px;
+}
+
+.ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+
+.ring-card {
+  position: absolute;
+  top: -11vh;
+  left: -8.5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 17vw;
+  height: 22vh;
+  padding: 1.3vw;
+  border: 2px solid var(--color-fg);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--color-fondo) 82%, transparent);
+  backdrop-filter: blur(6px);
+  backface-visibility: hidden;
+}
+
+/* Spotlight: a bright copy of the text is revealed only around the cursor. */
+.spot {
+  position: absolute;
+  inset: 0;
+  --x: 50%;
+  --y: 50%;
+}
+
+.spot-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle 22vw at var(--x) var(--y), rgb(232 72 43 / 0.22), transparent 70%);
+  pointer-events: none;
+}
+
+.spot-text {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(40px, 8vw, 140px);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+.spot-text.dim { color: var(--color-fg); opacity: 0.1; }
+
+.spot-text.lit {
+  position: absolute;
+  inset: 0;
+  color: var(--color-fg);
+  -webkit-mask-image: radial-gradient(circle 15vw at var(--x) var(--y), #000 25%, transparent 100%);
+  mask-image: radial-gradient(circle 15vw at var(--x) var(--y), #000 25%, transparent 100%);
+}
+
+/* Before / after comparator */
+.compare {
+  position: relative;
+  width: min(62vw, 110vh);
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 2px solid var(--color-fg);
+  border-radius: 14px;
+  background: #fbf9f4;
+}
+
+.compare-layer { position: absolute; inset: 0; }
+
+.compare-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  margin-left: -1.5px;
+  background: var(--color-acento);
+}
+
+.compare-handle::after {
+  content: '‹ ›';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #fff;
+  background: var(--color-acento);
+  box-shadow: 0 6px 20px -6px rgb(232 72 43 / 0.7);
+}
+
+.compare-tag {
+  position: absolute;
+  top: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Timeline */
+.tl {
+  position: relative;
+  height: 40vh;
+}
+
+.tl-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  margin-top: -1.5px;
+  background: var(--color-fg);
+  transform-origin: left;
+}
+
+.tl-stop {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 16vw;
+  margin-left: -8vw;
+}
+
+.tl-dot {
+  width: 22px;
+  height: 22px;
+  margin-top: -11px;
+  border: 3px solid var(--color-fg);
+  border-radius: 50%;
+  background: var(--color-fondo);
+}
+
+.tl-dot.hot { border-color: var(--color-acento); background: var(--color-acento); }
+
+.tl-label {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
+
+.tl-label.up { bottom: 26px; }
+.tl-label.down { top: 26px; }
+
+.tl-pulse {
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 50%;
+  background: var(--color-acento);
+  box-shadow: 0 0 0 0 rgb(232 72 43 / 0.7), 0 0 24px 6px rgb(232 72 43 / 0.5);
+}
+
+/* Magic-move cards */
+.mm-card {
+  display: flex;
+  gap: 1.1vw;
+  padding: 1.3vw;
+  border: 2px solid var(--color-fg);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--color-fondo) 60%, transparent);
+}
+
+.mm-icon {
+  flex-shrink: 0;
+  width: 3.4vw;
+  height: 3.4vw;
+}
+
+/* Build-step progress dots (bottom-right, only on slides that declare `steps`) */
+.step-dots {
+  position: fixed;
+  right: var(--pad);
+  bottom: clamp(14px, 2.4vh, 32px);
+  z-index: 50;
+  display: flex;
+  gap: 8px;
+}
+
+.step-dots i {
+  width: 9px;
+  height: 9px;
+  border: 2px solid #8a8478;
+  border-radius: 50%;
+  transition: background 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.step-dots i.on {
+  border-color: #e8482b;
+  background: #e8482b;
+  transform: scale(1.2);
+}
+
+.build-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  padding: 1.1vw 1.4vw;
+  border: 2px solid var(--color-fg);
+  border-radius: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(16px, 1.8vw, 36px);
+  text-align: center;
+  background: color-mix(in srgb, var(--color-fondo) 70%, transparent);
+}
+
+.build-box.hot {
+  border-color: var(--color-acento);
+  background: color-mix(in srgb, var(--color-acento) 14%, transparent);
+}
+
+.build-box small {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.55em;
+  color: var(--color-muted);
+}
